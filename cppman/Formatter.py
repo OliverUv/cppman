@@ -29,7 +29,7 @@ import struct
 import subprocess
 import sys
 import termios
-import urllib
+import urllib.request, urllib.parse, urllib.error
 
 # Format replacement RE list
 # The '.SE' pseudo macro is described in the function: cplusplus2groff
@@ -126,7 +126,7 @@ rps = [
         (r'&gt;', r'>', 0),
         (r'&amp;', r'&', 0),
         (r'&nbsp;', r' ', 0),
-        (u'\x0d([^)])', r'\n.br\n\1', 0),
+        ('\x0d([^)])', r'\n.br\n\1', 0),
         (r'>/">', r'', 0),
         (r'/">', r'', 0),
         # Remove empty lines
@@ -269,9 +269,9 @@ def get_width():
 
 def test():
     """Simple Text"""
-    name = raw_input('What manual page do you want? ')
-    ifs = urllib.urlopen('http://www.cplusplus.com/' + name)
-    print cplusplus2man(ifs.read()),
+    name = input('What manual page do you want? ')
+    ifs = urllib.request.urlopen('http://www.cplusplus.com/' + name)
+    print(cplusplus2man(ifs.read()), end=' ')
     #with open('test.txt') as ifs:
     #    print cplusplus2man(ifs.read()),
 
